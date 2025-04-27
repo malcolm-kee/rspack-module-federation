@@ -1,0 +1,21 @@
+{
+  "name": "micro-a",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "rs-cli dev --port=3398",
+    "build": "rs-cli build"
+  },
+  "dependencies": {
+    "@rspack-mf/runtime": "workspace:*",
+    "@rspack-mf/utils": "workspace:*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@rspack-mf/cli": "workspace:*",
+    "@types/react": "^18.3.20",
+    "@types/react-dom": "^18.3.1",
+    "typescript": "^5.8.3"
+  }
+}
