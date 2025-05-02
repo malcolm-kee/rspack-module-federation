@@ -17,6 +17,9 @@
       }
     }
   },
+  "dependencies": {
+    "@module-federation/enhanced": "^0.13.0"
+  },
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup"

@@ -1,14 +1,9 @@
-import * as React from 'react';
-import { loadRemotes } from './lib/load-remotes';
 import type { Block } from '@rspack-mf/cli';
+import * as React from 'react';
+import { loadRemotes, loadRemotesV2 } from './lib/load-remotes';
+
 export const App = () => {
   const [block, setBlock] = React.useState<Block | null>(null);
-
-  React.useEffect(() => {
-    loadRemotes().then((result) => {
-      setBlock(result);
-    });
-  }, []);
 
   return (
     <div>
@@ -20,6 +15,24 @@ export const App = () => {
           ))}
         </>
       ) : null}
+      <button
+        onClick={() => {
+          setBlock(null);
+          loadRemotes().then(setBlock);
+        }}
+        type="button"
+      >
+        Load Remotes
+      </button>
+      <button
+        onClick={() => {
+          setBlock(null);
+          loadRemotesV2().then((block) => block && setBlock(block));
+        }}
+        type="button"
+      >
+        Load Remotes V2
+      </button>
     </div>
   );
 };

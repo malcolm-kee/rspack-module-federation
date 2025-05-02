@@ -1,5 +1,5 @@
 import type { Block } from '@rspack-mf/cli';
-import { loadRemoteModule } from '@rspack-mf/runtime';
+import { init, loadRemote, loadRemoteModule } from '@rspack-mf/runtime';
 
 export const loadRemotes = async () => {
   const { default: result } = await loadRemoteModule<{ default: Block }>({
@@ -9,4 +9,20 @@ export const loadRemotes = async () => {
   });
 
   return result;
+};
+
+export const loadRemotesV2 = async () => {
+  init({
+    name: 'host',
+    remotes: [
+      {
+        name: 'micro_a',
+        entry: 'http://localhost:3398/remoteEntry.js',
+      },
+    ],
+  });
+
+  const result = await loadRemote<{ default: Block }>('micro_a/block');
+
+  return result?.default;
 };
