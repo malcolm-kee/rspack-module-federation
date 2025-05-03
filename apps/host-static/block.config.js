@@ -5,6 +5,10 @@ const config = {
       name: 'micro_a',
       url: 'http://localhost:3398',
     },
+    {
+      name: 'micro_b',
+      url: 'http://localhost:3400',
+    },
   ],
 };
 

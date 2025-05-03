@@ -96,6 +96,34 @@ importers:
         specifier: ^5.8.3
         version: 5.8.3
 
+  apps/micro-b:
+    dependencies:
+      '@rspack-mf/runtime':
+        specifier: workspace:*
+        version: link:../../packages/runtime
+      '@rspack-mf/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@rspack-mf/cli':
+        specifier: workspace:*
+        version: link:../../packages/cli
+      '@types/react':
+        specifier: ^18.3.20
+        version: 18.3.20
+      '@types/react-dom':
+        specifier: ^18.3.1
+        version: 18.3.6(@types/react@18.3.20)
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+
   packages/cli:
     dependencies:
       '@module-federation/enhanced':

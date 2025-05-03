@@ -9,8 +9,8 @@ This is a monorepo project using pnpm workspaces. The project is organized into 
 ### Apps (`/apps`)
 
 - `host/`: The main application that serves as the container for other micro-frontends
-- `micro-a/`: A micro-frontend application that can be loaded into the host application
 - `host-static/`: Similar to `host/`, but the remotes are used with `import` instead of loaded using runtime API.
+- `micro-a/` and `micro_b/`: micro-frontend application that can be loaded into the host application
 
 ### Packages (`/packages`)
 
@@ -80,7 +80,7 @@ const result = await loadRemote<{ default: Block }>('micro_a/block');
 
 Remote modules (micro-frontends) expose their components through a `Block` interface:
 
-```typescript
+```ts
 import type { Block } from '@rspack-mf/cli';
 
 export default {

@@ -3,22 +3,26 @@ import * as React from 'react';
 import { loadRemotes, loadRemotesV2 } from './lib/load-remotes';
 
 export const App = () => {
-  const [block, setBlock] = React.useState<Block | null>(null);
+  const [blocks, setBlocks] = React.useState<Array<Block> | null>(null);
 
   return (
     <div>
       <h1>Host App</h1>
-      {block ? (
+      {blocks ? (
         <>
-          {block.components.map((Component, index) => (
-            <Component key={index} />
+          {blocks.map((block, index) => (
+            <React.Fragment key={index}>
+              {block.components.map((Component, cIndex) => (
+                <Component key={cIndex} />
+              ))}
+            </React.Fragment>
           ))}
         </>
       ) : null}
       <button
         onClick={() => {
-          setBlock(null);
-          loadRemotes().then(setBlock);
+          setBlocks(null);
+          loadRemotes().then(setBlocks);
         }}
         type="button"
       >
@@ -26,8 +30,8 @@ export const App = () => {
       </button>
       <button
         onClick={() => {
-          setBlock(null);
-          loadRemotesV2().then((block) => block && setBlock(block));
+          setBlocks(null);
+          loadRemotesV2().then((block) => block && setBlocks(block));
         }}
         type="button"
       >
