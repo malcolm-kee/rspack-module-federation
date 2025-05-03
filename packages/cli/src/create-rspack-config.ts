@@ -1,5 +1,6 @@
 import { ModuleFederationPlugin } from '@module-federation/enhanced/rspack';
 import type { Configuration, DevServer, Mode, SharedObject, Plugin } from '@rspack/core';
+import ReactRefreshPlugin from '@rspack/plugin-react-refresh';
 import { rspack } from '@rspack/core';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -7,6 +8,7 @@ import path from 'node:path';
 import { fsToRequirePath } from './lib/fs-to-require-path';
 import { type AppInfo } from './lib/get-app-info';
 import { type PathsInfo } from './paths';
+import type { BlockConfig } from './types';
 
 export const createRspackConfig = ({
   paths,
@@ -23,6 +25,8 @@ export const createRspackConfig = ({
   moduleFederationVersion: ModuleFederationVersion;
   devServerOverrides?: DevServer;
 }): Configuration => {
+  const isDev = mode === 'development';
+
   return {
     mode,
     entry: { main: paths.appEntry },
@@ -49,6 +53,8 @@ export const createRspackConfig = ({
                 transform: {
                   react: {
                     runtime: 'automatic',
+                    development: isDev,
+                    refresh: isDev,
                   },
                 },
               },
@@ -57,11 +63,13 @@ export const createRspackConfig = ({
         },
       ],
     },
-    devtool: mode === 'development' ? 'cheap-module-source-map' : 'source-map',
+    devtool: isDev ? 'cheap-module-source-map' : 'source-map',
     resolve: {
       extensions: paths.supportedExtensions.slice(0),
     },
     plugins: [
+      isDev && new ReactRefreshPlugin(),
+      isDev && new rspack.HotModuleReplacementPlugin(),
       new rspack.HtmlRspackPlugin({
         title: appInfo.appName.asHuman,
         templateContent: /* html */ `<!DOCTYPE html><html>
@@ -75,6 +83,7 @@ export const createRspackConfig = ({
         appInfo,
         appType,
         paths,
+        blockConfig: appInfo.blockConfig,
       }),
     ],
     cache: false,
@@ -100,11 +109,13 @@ const getModuleFederationPlugin = ({
   paths,
   appInfo,
   appType,
+  blockConfig,
 }: {
   version: ModuleFederationVersion;
   paths: PathsInfo;
   appInfo: AppInfo;
   appType: AppType;
+  blockConfig: BlockConfig | undefined;
 }): Plugin => {
   const federationConfig = {
     name: appInfo.appName.asVariable,
@@ -131,6 +142,17 @@ const getModuleFederationPlugin = ({
           )
         : {}),
     },
+    remotes: blockConfig?.remotes
+      ? blockConfig.remotes.reduce<Record<string, string>>(
+          (result, remote) => ({
+            ...result,
+            [remote.name]: `${remote.name}@${remote.url}/${
+              version === 'v2' ? 'mf-manifest.json' : 'remoteEntry.js'
+            }`,
+          }),
+          {},
+        )
+      : undefined,
   };
 
   console.log('Module federation', version, federationConfig);

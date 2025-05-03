@@ -5,6 +5,7 @@
   "description": "Module federation using rspack",
   "scripts": {
     "build": "pnpm -r build",
+    "build:app:2": "pnpm --filter \"./apps/**\" --parallel -r build --mf=v2",
     "dev": "pnpm --filter \"./packages/**\" --parallel --stream -r dev",
     "dev:app": "pnpm --filter \"./apps/**\" --parallel --stream -r dev",
     "dev:app:1.5": "pnpm dev:app --mf=v1.5",

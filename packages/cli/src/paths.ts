@@ -22,6 +22,7 @@ export const paths = {
   appOutputDir: path.resolve(appRoot, 'build'),
   appPackageJson: path.resolve(appRoot, 'package.json'),
   appBlock: resolveModule(path.resolve(appRoot, 'src/block')),
+  appBlockConfig: path.resolve(appRoot, 'block.config.js'),
   supportedExtensions,
 };
 

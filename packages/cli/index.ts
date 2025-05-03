@@ -1,5 +1,1 @@
-import type { JSXElementConstructor } from 'react';
-
-export interface Block {
-  components: Array<JSXElementConstructor<{}>>;
-}
+export type * from './src/types';

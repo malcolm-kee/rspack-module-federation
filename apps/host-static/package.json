@@ -1,11 +1,11 @@
 {
-  "name": "micro-a",
+  "name": "host-static",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "rs-cli dev --port=3398",
-    "build": "rs-cli build",
-    "serve": "rs-cli serve --port=3398"
+    "dev": "rs-cli dev --port=3399 --type=host",
+    "build": "rs-cli build --type=host",
+    "serve": "rs-cli serve --port=3399"
   },
   "dependencies": {
     "@rspack-mf/runtime": "workspace:*",
